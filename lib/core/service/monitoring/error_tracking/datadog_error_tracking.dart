@@ -21,6 +21,8 @@ abstract final class DataDogErrorTracking {
     bool fatal = false,
     bool filter = true,
   }) {
+    if (!Datadog.isInitialized) return;
+
     if (filter) {
       if (exception is NetworkException) {
         if (exception.skipLogging) {

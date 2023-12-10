@@ -6,20 +6,27 @@ import '../../../../config/enum/app_env.enum.dart';
 
 @immutable
 abstract final class Datadog {
+  static bool _isInitialized = false;
+
+  static bool get isInitialized => _isInitialized;
+
   // When the app is in the background and
   //  opened directly from the push notification.
   static Future<void> init({required AppEnvironment env}) async {
-    DatadogSdk.instance.sdkVerbosity = Verbosity.verbose;
-    await DatadogSdk.instance.initialize(DdSdkConfiguration(
-      clientToken: EnvConstant.datadogClientToken,
-      env: env.name,
-      site: DatadogSite.us1,
-      trackingConsent: TrackingConsent.granted,
-      nativeCrashReportEnabled: true,
-      loggingConfiguration: LoggingConfiguration(),
-      rumConfiguration: RumConfiguration(
-        applicationId: EnvConstant.datadogApplicationId,
-      ),
-    ));
+    try {
+      DatadogSdk.instance.sdkVerbosity = Verbosity.verbose;
+      await DatadogSdk.instance.initialize(DdSdkConfiguration(
+        clientToken: EnvConstant.datadogClientToken,
+        env: env.name,
+        site: DatadogSite.us1,
+        trackingConsent: TrackingConsent.granted,
+        nativeCrashReportEnabled: true,
+        loggingConfiguration: LoggingConfiguration(),
+        rumConfiguration: RumConfiguration(
+          applicationId: EnvConstant.datadogApplicationId,
+        ),
+      ));
+      _isInitialized = true;
+    } catch (_) {}
   }
 }

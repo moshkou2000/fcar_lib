@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 @immutable
 abstract final class KoraColor {
-  static const primary = Colors.yellow;
+  static const primary = Colors.amber;
   static const onPrimary = Color(0xFF3D82C3);
   static const primaryContainer = Color(0xFF173559);
   static const onPrimaryContainer = Color(0xFF998F01);
@@ -37,8 +37,8 @@ abstract final class KoraColor {
   static const shadow = Color(0xff000000);
   static const overlay = Color.fromRGBO(0, 0, 0, 0.6);
 
-  static const statusBarColor = Colors.yellow;
-  static const navigationBarColor = Colors.yellow;
+  static const statusBarColor = Colors.amber;
+  static const navigationBarColor = Colors.amber;
 
   static final button = Colors.blue[300];
   static final onButton = Colors.blue[600];

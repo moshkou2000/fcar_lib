@@ -23,6 +23,8 @@ abstract final class SentryErrorTracking {
     bool fatal = false,
     bool filter = true,
   }) {
+    if (!Sentry.isInitialized) return;
+
     if (filter) {
       if (exception is NetworkException) {
         if (exception.skipLogging) {

@@ -6,8 +6,15 @@ import '../../../../config/enum/app_env.enum.dart';
 
 @immutable
 abstract final class Firebase {
+  static bool _isInitialized = false;
+
+  static bool get isInitialized => _isInitialized;
+
   static Future<void> init({required AppEnvironment env}) async {
-    await package.Firebase.initializeApp();
-    await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+    try {
+      await package.Firebase.initializeApp();
+      await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+      _isInitialized = true;
+    } catch (_) {}
   }
 }

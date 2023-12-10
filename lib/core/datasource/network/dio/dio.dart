@@ -302,7 +302,9 @@ class _DioNetwork {
       ..interceptors.addAll([
         DioLoggerInterceptor(),
         DioValidatorInterceptor(),
-        DioCacheInterceptor(options: cacheOptions),
+        // store must not be null
+        if (cacheOptions.store != null)
+          DioCacheInterceptor(options: cacheOptions),
       ]);
   }
 }

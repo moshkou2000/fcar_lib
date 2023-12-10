@@ -39,8 +39,9 @@ abstract final class ValueConstant {
   /// (?=.*[A-Z])                                  Require that at least one uppercase letter appear anywhere in the string
   /// (?=.*[*.!@$%^&(){}[]:;<>,.?/~_+-=|\])    Require that at least one special character appear anywhere in the string
   /// .{8,32}                                      The password must be at least 8 characters long, but no more than 32
-  static const passwordPattern =
-      r'^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[*.!@$%^&(){}[\]:;<>,.?/~_+-=|]).{8,32}$';
+  ///
+  /// r'^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[*.!@$%^&(){}[\]:;<>,.?/~_+-=|]).{8,32}$'
+  static const passwordPattern = r'.{6,32}$'; // simple pattern
   static const spacePattern = r'\s';
   static const specialCharacterPattern =
       r'[\\\!@#$%^&*()_+=`~' "<>,.|''/:;?\"{}¥£\\[\\]]";

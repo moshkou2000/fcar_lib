@@ -10,7 +10,9 @@ abstract final class FirebaseErrorTracking {
   /// call in [App.setup]
   static Future<void> setup({required AppEnvironment env}) async {
     Firebase.init(env: env);
-    await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+    if (Firebase.isInitialized) {
+      await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+    }
   }
 
   static void recordError(
@@ -22,6 +24,8 @@ abstract final class FirebaseErrorTracking {
     bool fatal = false,
     bool filter = true,
   }) {
+    if (!Firebase.isInitialized) return;
+
     if (filter) {
       if (exception is NetworkException) {
         if (exception.skipLogging) {
