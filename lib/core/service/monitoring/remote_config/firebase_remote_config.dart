@@ -1,11 +1,11 @@
 import 'dart:math';
 
 import 'package:firebase_remote_config/firebase_remote_config.dart' as package;
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../config/enum/app_env.enum.dart';
+import '../../../utility/logger.dart';
 import '../monitoring/firebase.dart';
 
 @immutable
@@ -35,10 +35,8 @@ abstract final class FirebaseRemoteConfig {
           };
       await package.FirebaseRemoteConfig.instance.setDefaults(params);
       await package.FirebaseRemoteConfig.instance.fetchAndActivate();
-    } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
+    } catch (e, s) {
+      logger.error('FirebaseRemoteConfig', e: e, s: s);
     }
   }
 
@@ -86,10 +84,8 @@ abstract final class FirebaseRemoteConfig {
         }
       }
       return false;
-    } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
+    } catch (e, s) {
+      logger.error('', e: e, s: s);
     }
     return false;
   }
@@ -100,10 +96,8 @@ abstract final class FirebaseRemoteConfig {
       if (await canLaunchUrl(uri)) {
         try {
           await launchUrl(uri);
-        } catch (e) {
-          if (kDebugMode) {
-            print(e);
-          }
+        } catch (e, s) {
+          logger.error('FirebaseRemoteConfig', e: e, s: s);
         }
       }
     }

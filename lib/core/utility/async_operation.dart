@@ -1,8 +1,7 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
-
 import '../datasource/network/network_exception.dart';
+import 'logger.dart';
 
 class AsyncOperation {
   static Completer<bool?>? _completer;
@@ -16,8 +15,8 @@ class AsyncOperation {
       await futureTask;
       _completer?.complete(true);
     } catch (e, s) {
+      logger.error('AsyncOperation', e: e, s: s);
       // unawaited(Crashlytics.recordError(e, s));
-      debugPrint('AsyncOperation.complete.error: $e, $s');
       // check if completer alr completed or not, if not, complete it with false value
       if (_completer != null) {
         if (_completer!.isCompleted == false) {

@@ -3,6 +3,7 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 
 import '../../../../config/constant/env.constant.dart';
 import '../../../../config/enum/app_env.enum.dart';
+import '../../../utility/logger.dart';
 
 @immutable
 abstract final class Sentry {
@@ -33,6 +34,8 @@ abstract final class Sentry {
         options.tracesSampleRate = 1.0;
       });
       _isInitialized = true;
-    } catch (_) {}
+    } catch (e, s) {
+      logger.error('Sentry', e: e, s: s);
+    }
   }
 }
