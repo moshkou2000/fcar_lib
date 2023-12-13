@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 
+import '../../../utility/logger.dart';
 import '../notification_message.model.dart';
 
 @immutable
@@ -35,10 +36,8 @@ abstract final class RemoteNotification {
       await requestPermission();
       // If the application has been opened from a terminated state via push notification
       await checkInitialMessage();
-    } catch (e) {
-      if (kDebugMode) {
-        print('_onTokenRefresh: ${e.toString}');
-      }
+    } catch (e, s) {
+      logger.error('RemoteNotification', e: e, s: s);
     }
   }
 
@@ -61,34 +60,26 @@ abstract final class RemoteNotification {
   /// suggested to call in [initState]
   static Future<void> checkInitialMessage() async {
     final message = await FirebaseMessaging.instance.getInitialMessage();
-    if (kDebugMode) {
-      print('checkInitialMessage: $message');
-    }
+    logger.info('checkInitialMessage: $message');
     if (message != null) {
       _handleMessage(message);
     }
   }
 
   static void _onTokenRefresh(String token) {
-    if (kDebugMode) {
-      print('_onTokenRefresh: $token');
-    }
+    logger.info('_onTokenRefresh: $token');
     // TODO: notification logic
   }
 
   // When the app is open and it receives a push notification
   static Future<void> _onForeground(RemoteMessage message) async {
-    if (kDebugMode) {
-      print('_onForeground: ${message.toString()}');
-    }
+    logger.info('_onForeground: ${message.toString()}');
     _handleMessage(message);
   }
 
   // When the app is in the background and opened directly from the push notification.
   static Future<void> _onBackground(RemoteMessage message) async {
-    if (kDebugMode) {
-      print('_onBackground: ${message.toString()}');
-    }
+    logger.info('_onBackground: ${message.toString()}');
     _handleMessage(message);
   }
 

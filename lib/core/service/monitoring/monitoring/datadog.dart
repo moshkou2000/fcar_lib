@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 
 import '../../../../config/constant/env.constant.dart';
 import '../../../../config/enum/app_env.enum.dart';
+import '../../../utility/logger.dart';
 
 @immutable
 abstract final class Datadog {
@@ -27,6 +28,8 @@ abstract final class Datadog {
         ),
       ));
       _isInitialized = true;
-    } catch (_) {}
+    } catch (e, s) {
+      logger.error('Datadog', e: e, s: s);
+    }
   }
 }

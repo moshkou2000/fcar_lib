@@ -3,6 +3,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 
 import '../../../../config/enum/app_env.enum.dart';
+import '../../../utility/logger.dart';
 
 @immutable
 abstract final class Firebase {
@@ -15,6 +16,8 @@ abstract final class Firebase {
       await package.Firebase.initializeApp();
       await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
       _isInitialized = true;
-    } catch (_) {}
+    } catch (e, s) {
+      logger.error('Firebase', e: e, s: s);
+    }
   }
 }

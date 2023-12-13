@@ -1,6 +1,6 @@
-import 'package:flutter/foundation.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
+import '../../../utility/logger.dart';
 import '../socket.dart';
 import '../socket.enum.dart';
 
@@ -90,9 +90,7 @@ class Socketio extends ISocket {
     if (_socket?.connected == true) {
       _socket?.emit(event.name, body);
     } else {
-      if (kDebugMode) {
-        print('Socketio.emit: socket is not connected!!!');
-      }
+      logger.warning('Socketio.emit: socket is not connected!!!');
     }
   }
 }

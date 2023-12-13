@@ -1,7 +1,7 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
+import '../../../utility/logger.dart';
 import '../notification_message.model.dart';
 
 // setup default
@@ -57,10 +57,8 @@ abstract final class LocalNotification {
                 : null),
         payload: notificationMessage.payload,
       );
-    } catch (e) {
-      if (kDebugMode) {
-        print('LocalNotificationService.show: ${e.toString()}');
-      }
+    } catch (e, s) {
+      logger.error('LocalNotification', e: e, s: s);
     }
   }
 

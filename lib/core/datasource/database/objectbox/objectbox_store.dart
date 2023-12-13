@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 
 import '../../../../objectbox.g.dart';
+import '../../../utility/logger.dart';
 import '../collection.dart';
 import '../database.dart';
 import '../database.enum.dart';
@@ -29,9 +30,7 @@ class ObjectboxStore extends IDatabase {
     final store = await _createStore();
     if (store != null) {
       _objectboxStore = store;
-      if (kDebugMode) {
-        print('ObjectboxStore.create: new [$databaseName] store');
-      }
+      logger.info('ObjectboxStore created [$databaseName] store');
     }
   }
 
@@ -50,9 +49,8 @@ class ObjectboxStore extends IDatabase {
       final directory = await getDatabasePath();
       // openStore() is defined in the generated objectbox.g.dart
       return await openStore(directory: directory);
-    } catch (e) {
-      debugPrint(
-          'ObjectboxStore._createStore.error: database(${databaseName.name}): $e');
+    } catch (e, s) {
+      logger.error('database [${databaseName.name}]', e: e, s: s);
       // ErrorTracking.recordError(
       //   e,
       //   s,
