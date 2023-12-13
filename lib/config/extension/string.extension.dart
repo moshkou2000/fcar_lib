@@ -55,7 +55,7 @@ extension StringExtension on String {
     final f = DateFormat(format);
     try {
       return f.parse(this);
-    } catch (e) {
+    } catch (_) {
       return null;
     }
   }
@@ -64,7 +64,7 @@ extension StringExtension on String {
     final f = DateFormat(format);
     try {
       return f.parse(this);
-    } catch (e) {
+    } catch (_) {
       return null;
     }
   }

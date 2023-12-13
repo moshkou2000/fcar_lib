@@ -2,24 +2,25 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
+
+import '../../../../utility/logger.dart';
 
 class DioLoggerInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    // if (kDebugMode) _logRequest(options);
+    // _logRequest(options);
     super.onRequest(options, handler);
   }
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
-    // if (kDebugMode) _logResponse(response);
+    // _logResponse(response);
     super.onResponse(response, handler);
   }
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
-    if (kDebugMode) _logError(err);
+    _logError(err);
     super.onError(err, handler);
   }
 
@@ -27,8 +28,8 @@ class DioLoggerInterceptor extends Interceptor {
   void _logRequest(RequestOptions requestOptions) {
     try {
       log(_getRequest(requestOptions), name: 'request');
-    } catch (err) {
-      log('unable to create a CURL representation of the requestOptions');
+    } catch (e, s) {
+      logger.error('', e: e, s: s);
     }
   }
 
@@ -36,8 +37,8 @@ class DioLoggerInterceptor extends Interceptor {
   void _logResponse(Response response) {
     try {
       log(_getResponse(response), name: 'response');
-    } catch (err) {
-      log('unable to create a CURL representation of the response');
+    } catch (e, s) {
+      logger.error('', e: e, s: s);
     }
   }
 
@@ -46,8 +47,8 @@ class DioLoggerInterceptor extends Interceptor {
     try {
       log(_getRequest(err.requestOptions), name: 'error', error: err);
       if (err.response != null) log(_getResponse(err.response!), name: 'error');
-    } catch (err) {
-      log('unable to create a CURL representation of the error');
+    } catch (e, s) {
+      logger.error('', e: e, s: s);
     }
   }
 

@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:video_compress/video_compress.dart';
 
 import '../../../../config/constant/value.constant.dart';
+import '../../../utility/logger.dart';
 import '../file.model.dart';
 import '../storage.dart';
 
@@ -35,10 +35,7 @@ class FileManager implements IStorage {
       autoCorrectionAngle: false,
       format: CompressFormat.jpeg,
     ).catchError((e, s) {
-      //TODO: capture exceptions for logging
-      if (kDebugMode) {
-        print('Storage.compress.error: $e');
-      }
+      logger.error('FileManager', e: e, s: s);
       return null;
     });
 
