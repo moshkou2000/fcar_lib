@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../keystore.dart';
@@ -21,17 +19,18 @@ class SecureStorage implements IKeystore {
   Future<void> clear() async => await _deleteAll();
 
   @override
-  Future<T?> read<T>({required KeystoreKey key}) async {
+  Future<dynamic> read<T>({required KeystoreKey key}) async {
     if (T is bool) {
-      return await _readBool(key.name) as T;
+      return await _readBool(key.name) as bool?;
     } else if (T is String) {
-      return await _readString(key.name) as T;
+      return await _readString(key.name) as String?;
     } else if (T is int) {
-      return await _readInt(key.name) as T;
+      return await _readInt(key.name) as int?;
     } else if (T is double) {
-      return await _readDouble(key.name) as T;
+      return await _readDouble(key.name) as double?;
     }
-    return null;
+
+    return await _readString(key.name) as String?;
   }
 
   @override
@@ -39,12 +38,12 @@ class SecureStorage implements IKeystore {
       await _delete(key.name);
 
   @override
-  Future<void> save({required KeystoreKey key, required Object value}) async =>
-      await _write(key.name, json.encode(value));
+  Future<void> save({required KeystoreKey key, required String value}) async =>
+      await _write(key.name, value);
 
   Future<bool?> _readBool(String key, {bool useOriginalKey = false}) async {
     final value = await _storage.read(key: _fixKey(key, useOriginalKey));
-    return value == null ? null : bool.tryParse(value);
+    return value == null ? null : bool.tryParse(value, caseSensitive: false);
   }
 
   Future<int?> _readInt(String key, {bool useOriginalKey = false}) async {
@@ -63,12 +62,12 @@ class SecureStorage implements IKeystore {
 
   Future<void> _write(
     String key,
-    dynamic value, {
+    String value, {
     bool useOriginalKey = false,
   }) async =>
       await _storage.write(
           key: _fixKey(key, useOriginalKey),
-          value: value != null ? value.toString() : '');
+          value: value);
 
   Future<void> _delete(String key, {bool useOriginalKey = false}) async =>
       await _storage.delete(key: _fixKey(key, useOriginalKey));

@@ -9,7 +9,19 @@ abstract class IKeystore {
   IKeystore({required this.keystoreName});
 
   Future<void> clear();
-  Future<T?> read<T>({required KeystoreKey key});
+
+  /// return type is bool, String, int, double
+  ///
+  /// Use json decoded to convert to your model.
+  ///
+  /// Implement [fromJson] in your model 
+  ///   PlayerModel.fromJson(String source)
+  Future<dynamic> read<T>({required KeystoreKey key});
   Future<void> remove({required KeystoreKey key});
-  Future<void> save({required KeystoreKey key, required Object value});
+
+  /// Use json encoded to convert your model to String.
+  /// 
+  /// Implement [toJson] in your model
+  ///   String toJson() => json.encode(toMap());
+  Future<void> save({required KeystoreKey key, required String value});
 }
