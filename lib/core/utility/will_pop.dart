@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:fcar_lib/config/extension/context.extension.dart';
+import '../../config/extension/context.extension.dart';
 
 /// It's about dismissing a widget in Flutter.
 /// Set [attemptToPop] true or pass condition [canPop]

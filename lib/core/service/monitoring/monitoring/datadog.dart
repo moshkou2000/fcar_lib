@@ -15,18 +15,20 @@ abstract final class Datadog {
   //  opened directly from the push notification.
   static Future<void> init({required AppEnvironment env}) async {
     try {
-      DatadogSdk.instance.sdkVerbosity = Verbosity.verbose;
-      await DatadogSdk.instance.initialize(DdSdkConfiguration(
-        clientToken: EnvConstant.datadogClientToken,
-        env: env.name,
-        site: DatadogSite.us1,
-        trackingConsent: TrackingConsent.granted,
-        nativeCrashReportEnabled: true,
-        loggingConfiguration: LoggingConfiguration(),
-        rumConfiguration: RumConfiguration(
-          applicationId: EnvConstant.datadogApplicationId,
+      DatadogSdk.instance.sdkVerbosity = CoreLoggerLevel.critical;
+      await DatadogSdk.instance.initialize(
+        DatadogConfiguration(
+          clientToken: EnvConstant.datadogClientToken,
+          env: env.name,
+          site: DatadogSite.us1,
+          nativeCrashReportEnabled: true,
+          loggingConfiguration: DatadogLoggingConfiguration(),
+          rumConfiguration: DatadogRumConfiguration(
+            applicationId: EnvConstant.datadogApplicationId,
+          ),
         ),
-      ));
+        TrackingConsent.granted,
+      );
       _isInitialized = true;
     } catch (e, s) {
       logger.error('Datadog', e: e, s: s);

@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
-
 import '../../../../objectbox.g.dart';
 import '../../../utility/logger.dart';
 import '../collection.dart';

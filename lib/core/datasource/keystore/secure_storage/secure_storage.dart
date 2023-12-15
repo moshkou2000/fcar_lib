@@ -21,16 +21,16 @@ class SecureStorage implements IKeystore {
   @override
   Future<dynamic> read<T>({required KeystoreKey key}) async {
     if (T is bool) {
-      return await _readBool(key.name) as bool?;
+      return await _readBool(key.name);
     } else if (T is String) {
-      return await _readString(key.name) as String?;
+      return await _readString(key.name);
     } else if (T is int) {
-      return await _readInt(key.name) as int?;
+      return await _readInt(key.name);
     } else if (T is double) {
-      return await _readDouble(key.name) as double?;
+      return await _readDouble(key.name);
     }
 
-    return await _readString(key.name) as String?;
+    return await _readString(key.name);
   }
 
   @override
@@ -65,9 +65,7 @@ class SecureStorage implements IKeystore {
     String value, {
     bool useOriginalKey = false,
   }) async =>
-      await _storage.write(
-          key: _fixKey(key, useOriginalKey),
-          value: value);
+      await _storage.write(key: _fixKey(key, useOriginalKey), value: value);
 
   Future<void> _delete(String key, {bool useOriginalKey = false}) async =>
       await _storage.delete(key: _fixKey(key, useOriginalKey));
