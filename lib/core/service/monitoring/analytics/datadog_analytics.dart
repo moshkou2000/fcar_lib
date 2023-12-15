@@ -1,4 +1,5 @@
 import 'package:datadog_flutter_plugin/datadog_flutter_plugin.dart' as package;
+import 'package:datadog_flutter_plugin/datadog_flutter_plugin.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../config/enum/app_env.enum.dart';
@@ -14,12 +15,20 @@ abstract final class DatadogAnalytics {
     await setUser(userId: null);
   }
 
+  static DatadogLogger? _logger;
   static Future<void> logEvent<T>({
     required AnalyticsEvent event,
     Map<String, dynamic>? data,
   }) async {
     // logEvent(eventName: eventName, data: data);
-    package.DatadogSdk.instance.logs?.info(
+
+    _logger ??= package.DatadogSdk.instance.logs?.createLogger(
+      DatadogLoggerConfiguration(
+        remoteLogThreshold: LogLevel.info,
+      ),
+    );
+
+    _logger?.info(
       event.name,
       attributes: data != null ? Map<String, Object?>.from(data) : {},
     );

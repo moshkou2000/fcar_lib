@@ -4,19 +4,22 @@ class Deserialize<T> {
   final List<T> items = [];
   T? item;
 
-  /// [items] when json[key] is List
+  /// [items] when json[key] is List.
   ///
-  /// [item] when json[key] is not a list
+  /// [item] when json[key] is not a list.
   ///
-  /// [json] is the serialized data
+  /// [json] is the serialized data.
   ///
-  /// [key] is 'data' by default (can be changed if needed)
+  /// [key] is 'data' by default (can be changed if needed).
   ///
-  /// [requiredFields] to make sure that the response contains the required keys
+  /// [requiredFields] to make sure that the response contains the required keys.
+  /// Example -> requiredFields: ['token', 'refreshToken', 'username', 'displayname'],
   ///
-  /// [fromJson] is required when json[key] is List<Map<String, dynamic>> or Map<String, dynamic>
+  /// [fromJson] is required when json[key] is List<Map<String, dynamic>> or Map<String, dynamic>.
+  /// Use it this way -> fromJson: (e, {callback}) => AuthModel.fromMap(e),
   ///
-  /// [callback] is to return the missing keys based on [requiredFields]
+  /// [callback] is to return the missing keys based on [requiredFields].
+  /// Use it this way -> callback: (missingKeys) => throw Exception(missingKeys),
   Deserialize(
     dynamic json, {
     String key = 'data',
