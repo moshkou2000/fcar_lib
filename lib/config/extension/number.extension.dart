@@ -6,7 +6,14 @@ extension NumberExtension on num {
 
   String toCurrency() {
     return NumberFormat.simpleCurrency(name: 'USD', decimalDigits: 2)
-        .format(1000);
+        .format(this);
+  }
+
+  String toKMTnumber() {
+    return this < 1000
+        ? this.toString()
+        : NumberFormat.compactCurrency(decimalDigits: 2, symbol: '')
+            .format(this);
   }
 
   String toCurrency_({String separator = ',', String currency = '\$'}) {
