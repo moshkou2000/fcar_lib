@@ -1,7 +1,7 @@
 /// Reference to the given notification dataset
 /// export only one local & remote
 ///
-export './notification_message.model.dart';
+export 'notification_message.model.dart';
 export 'local/flutter_local_notification.dart';
 export 'remote/firebase_messaging.dart';
 

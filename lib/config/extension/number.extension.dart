@@ -11,7 +11,7 @@ extension NumberExtension on num {
 
   String toKMTnumber() {
     return this < 1000
-        ? this.toString()
+        ? toString()
         : NumberFormat.compactCurrency(decimalDigits: 2, symbol: '')
             .format(this);
   }
