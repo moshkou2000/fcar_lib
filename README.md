@@ -88,6 +88,11 @@ If the socket connection is failing, then you might have to add the following pr
      android:usesCleartextTraffic="true">
 ```
 
+### Permission
+Follow the instructions [Android & iOS integration](https://pub.dev/packages/permission_handler).
+
+For [Android project](https://github.com/Baseflow/flutter-permission-handler/blob/main/permission_handler/example/android/app/src/main/AndroidManifest.xml)
+
 # TODO
 
 implement iOS splashxcreen -> https://medium.com/swlh/native-splash-screen-in-flutter-using-lottie-121ce2b9b0a4
