@@ -3,45 +3,45 @@
 import 'package:flutter/material.dart';
 
 @immutable
-abstract final class BananaColor {
-  static const primary = Colors.yellow;
-  static const onPrimary = Color(0xFF3D82C3);
-  static const primaryContainer = Color(0xFF173559);
-  static const onPrimaryContainer = Color(0xFF998F01);
+abstract class BananaColor {
+  final primary = Colors.yellow;
+  final onPrimary = const Color(0xFF3D82C3);
+  final primaryContainer = const Color(0xFF173559);
+  final onPrimaryContainer = const Color(0xFF998F01);
 
-  static const secondary = Color(0xffac3306);
-  static const onSecondary = Color(0xFFB6AA01);
-  static const secondaryContainer = Color(0xffffdbcf);
-  static const onSecondaryContainer = Color(0xFF8C3D0E);
+  final secondary = const Color(0xffac3306);
+  final onSecondary = const Color(0xFFB6AA01);
+  final secondaryContainer = const Color(0xffffdbcf);
+  final onSecondaryContainer = const Color(0xFF8C3D0E);
 
-  static const tertiary = Color(0xff006875);
-  static const onTertiary = Color(0xFFE9D900);
-  static const tertiaryContainer = Color(0xFF7DD6B0);
-  static const onTertiaryContainer = Color(0xFFFFEE00);
+  final tertiary = const Color(0xff006875);
+  final onTertiary = const Color(0xFFE9D900);
+  final tertiaryContainer = const Color(0xFF7DD6B0);
+  final onTertiaryContainer = const Color(0xFFFFEE00);
 
-  static const error = Color(0xFF92192C);
-  static const onError = Color(0xFFBB2020);
-  static const errorContainer = Color(0xFFECF3F9);
+  final error = const Color(0xFF92192C);
+  final onError = const Color(0xFFBB2020);
+  final errorContainer = const Color(0xFFECF3F9);
 
-  static const background = Color(0xffffffff);
-  static const onBackground = Color(0xffffffff);
+  final background = const Color(0xffffffff);
+  final onBackground = const Color(0xffffffff);
 
-  static const surface = Color(0xff141617);
-  static const onSurface = Color(0xff141617);
-  static const surfaceVariant = Color(0xff181b1e);
-  static const onSurfaceVariant = Color(0xff181b1e);
+  final surface = const Color(0xff141617);
+  final onSurface = const Color(0xff141617);
+  final surfaceVariant = const Color(0xff181b1e);
+  final onSurfaceVariant = const Color(0xff181b1e);
 
-  static const inverseSurface = Color(0xfffcfdff);
-  static const inversePrimary = Color(0xff506273);
-  static const outline = Color(0xff959999);
-  static const shadow = Color(0xff000000);
-  static const overlay = Color.fromRGBO(0, 0, 0, 0.6);
+  final inverseSurface = const Color(0xfffcfdff);
+  final inversePrimary = const Color(0xff506273);
+  final outline = const Color(0xff959999);
+  final shadow = const Color(0xff000000);
+  final overlay = const Color.fromRGBO(0, 0, 0, 0.6);
 
-  static const statusBarColor = Colors.yellow;
-  static const navigationBarColor = Colors.yellow;
+  final statusBarColor = Colors.yellow;
+  final navigationBarColor = Colors.yellow;
 
-  static final button = Colors.blue[300];
-  static final onButton = Colors.blue[600];
-  static const buttonContainer = Colors.black38;
-  static const onButtonContainer = Colors.black54;
+  final button = Colors.blue[300];
+  final onButton = Colors.blue[600];
+  final buttonContainer = Colors.black38;
+  final onButtonContainer = Colors.black54;
 }

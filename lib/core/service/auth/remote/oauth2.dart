@@ -70,9 +70,9 @@ abstract final class Oauth2 {
     required Uri tokenEndpoint,
     required Uri redirectUrl,
     required String identifier,
-    required String secret,
     required Future<void> Function(Uri url) redirect,
     required Future<Uri> Function(Uri url) listen,
+    String? secret,
     String? jsonCredentials,
   }) async {
     // If the OAuth2 credentials have already been saved from a previous run, we
