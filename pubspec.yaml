@@ -23,6 +23,7 @@ dependencies:
   firebase_crashlytics: ^3.3.6
   firebase_messaging: ^14.6.8
   firebase_remote_config: ^4.2.6
+  flutter_appauth: ^6.0.3
   flutter_image_compress: ^2.0.4
   flutter_local_notifications: ^16.2.0
   flutter_native_splash: ^2.3.4
@@ -32,7 +33,6 @@ dependencies:
   intl: ^0.18.1
   local_auth: ^2.1.7
   logger: ^2.0.2+1
-  oauth2: ^2.0.2
   objectbox: ^2.3.0
   objectbox_flutter_libs: any
   package_info_plus: ^4.1.0
