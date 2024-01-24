@@ -1,5 +1,5 @@
 export 'auth/local/local_auth.dart';
-export 'auth/remote/oauth2.dart';
+export 'auth/remote/remote.module.dart';
 export 'device/device_info.dart';
 export 'geolocator/geolocator.module.dart';
 export 'localization/localization.module.dart';

@@ -34,13 +34,13 @@ abstract final class ValueConstant {
   static const emailPattern =
       r"[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?";
 
-  /// (?=.*[0-9])                                  Require that at least one digit appear anywhere in the string
-  /// (?=.*[a-z])                                  Require that at least one lowercase letter appear anywhere in the string
-  /// (?=.*[A-Z])                                  Require that at least one uppercase letter appear anywhere in the string
-  /// (?=.*[*.!@$%^&(){}[]:;<>,.?/~_+-=|\])    Require that at least one special character appear anywhere in the string
-  /// .{8,32}                                      The password must be at least 8 characters long, but no more than 32
+  /// - (?=.*[0-9])                                  Require that at least one digit appear anywhere in the string
+  /// - (?=.*[a-z])                                  Require that at least one lowercase letter appear anywhere in the string
+  /// - (?=.*[A-Z])                                  Require that at least one uppercase letter appear anywhere in the string
+  /// - (?=.*[*.!@$%^&(){}[]:;<>,.?/~_+-=|\])    Require that at least one special character appear anywhere in the string
+  /// - .{8,32}                                      The password must be at least 8 characters long, but no more than 32
   ///
-  /// r'^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[*.!@$%^&(){}[\]:;<>,.?/~_+-=|]).{8,32}$'
+  /// - r'^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[*.!@$%^&(){}[\]:;<>,.?/~_+-=|]).{8,32}$'
   static const passwordPattern = r'.{6,32}$'; // simple pattern
   static const spacePattern = r'\s';
   static const specialCharacterPattern =
