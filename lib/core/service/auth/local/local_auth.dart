@@ -12,9 +12,11 @@ abstract final class LocalAuth {
   static final _auth = LocalAuthentication();
 
   /// It's true if device is capable of checking biometrics.
+  /// It will be set after [init]
   static bool? isSupported;
 
   /// List of enrolled biometrics.
+  /// It will be populated after [init]
   static List<BiometricType>? availableBiometrics;
 
   /// call in [App.init]
