@@ -13,10 +13,14 @@ import 'remote_auth_config.model.dart';
 /// - Android:
 /// Configure Dependencies and Callback URL
 /// Update the android/app/build.gradle
-///  ```
+///
+/// It overrides [AndroidManifest.xml] placeholder substitution.
+/// Suggested to use += to keep the current data in [manifestPlaceholders];
+///
+/// ```
 ///   defaultConfig {
 ///     ...
-///     manifestPlaceholders = ['appAuthRedirectScheme': 'com.company.product:/oauthredirect']
+///     manifestPlaceholders += ['appAuthRedirectScheme': 'com.company.product:/oauthredirect']
 ///   }
 /// ```
 ///
