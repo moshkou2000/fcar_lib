@@ -142,7 +142,7 @@ abstract final class RemoteAuth {
           serviceConfiguration: serviceConfiguration,
         ),
       );
-      if (result != null) _processAuthTokenResponse(result);
+      if (result != null) _processAuthResponse(result);
       return result;
     } catch (e, s) {
       logger.error('RemoteAuth.auth', e: e, s: s);
@@ -169,7 +169,7 @@ abstract final class RemoteAuth {
           loginHint: loginHint,
         ),
       );
-      if (result != null) _processAuthResponse(result);
+      if (result != null) _processAuthWithNoCodeExchangeResponse(result);
       return result;
     } catch (e, s) {
       logger.error('RemoteAuth.authWithNoCodeExchange', e: e, s: s);
@@ -196,7 +196,7 @@ abstract final class RemoteAuth {
           scopes: config!.scopes,
         ),
       );
-      if (result != null) _processTokenResponse(result);
+      if (result != null) _processRefreshTokenResponse(result);
       return result;
     } catch (e, s) {
       logger.error('RemoteAuth.refreshToken', e: e, s: s);
@@ -240,7 +240,17 @@ abstract final class RemoteAuth {
     }
   }
 
-  static void _processAuthTokenResponse(AuthorizationTokenResponse response) {
+  /// Save the code verifier and nonce as it must be used when exchanging the token.
+  static void _processAuthWithNoCodeExchangeResponse(
+      AuthorizationResponse response) {
+    data.codeVerifier = response.codeVerifier;
+    data.nonce = response.nonce;
+    data.authorizationCode = response.authorizationCode;
+    data.authorizationAdditionalParameters =
+        response.authorizationAdditionalParameters;
+  }
+
+  static void _processAuthResponse(AuthorizationTokenResponse response) {
     data.accessToken = response.accessToken;
     data.idToken = response.idToken;
     data.refreshToken = response.refreshToken;
@@ -250,16 +260,7 @@ abstract final class RemoteAuth {
         response.authorizationAdditionalParameters;
   }
 
-  /// Save the code verifier and nonce as it must be used when exchanging the token.
-  static void _processAuthResponse(AuthorizationResponse response) {
-    data.codeVerifier = response.codeVerifier;
-    data.nonce = response.nonce;
-    data.authorizationCode = response.authorizationCode;
-    data.authorizationAdditionalParameters =
-        response.authorizationAdditionalParameters;
-  }
-
-  static void _processTokenResponse(TokenResponse response) {
+  static void _processRefreshTokenResponse(TokenResponse response) {
     data.accessToken = response.accessToken;
     data.idToken = response.idToken;
     data.refreshToken = response.refreshToken;

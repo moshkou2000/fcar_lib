@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 
+/// RemoteAuthConfigModel is to keep the necessary data for establish Oauth client.
+///
 /// [clientId] and [redirectUrl] are required.
 ///
 /// [clientId] or Application ID
