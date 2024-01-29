@@ -15,8 +15,8 @@ class Deserialize<T> {
   /// [requiredFields] to make sure that the response contains the required keys.
   /// Example -> requiredFields: ['token', 'refreshToken', 'username', 'displayname'],
   ///
-  /// [fromJson] is required when json[key] is List<Map<String, dynamic>> or Map<String, dynamic>.
-  /// Use it this way -> fromJson: (e, {callback}) => AuthModel.fromMap(e),
+  /// [fromMap] is required when json[key] is List<Map<String, dynamic>> or Map<String, dynamic>.
+  /// Use it this way -> fromMap: (e, {callback}) => AuthModel.fromMap(e),
   ///
   /// [callback] is to return the missing keys based on [requiredFields].
   /// Use it this way -> callback: (missingKeys) => throw Exception(missingKeys),
@@ -26,7 +26,7 @@ class Deserialize<T> {
     T Function(
       Map<String, dynamic>, {
       Function(Map<String, List<String>>)? callback,
-    })? fromJson,
+    })? fromMap,
     List<String> requiredFields = const [],
     Function(Map<String, List<String>>)? callback,
   }) {
@@ -35,17 +35,17 @@ class Deserialize<T> {
     if (j == null) {
       missingKeys.add(key);
     } else if (j is Map<String, dynamic>) {
-      assert(fromJson != null);
+      assert(fromMap != null);
       if (_isValid(j, requiredFields, missingKeys)) {
-        item = fromJson!(j, callback: callback);
+        item = fromMap!(j, callback: callback);
       }
     } else if (j is List<dynamic>) {
       for (final e in j) {
         if (e != null) {
           if (e is Map<String, dynamic>) {
-            assert(fromJson != null);
+            assert(fromMap != null);
             if (_isValid(e, requiredFields, missingKeys)) {
-              items.add(fromJson!(e, callback: callback));
+              items.add(fromMap!(e, callback: callback));
             }
           } else if (e is T) {
             items.add(e);
