@@ -17,10 +17,12 @@ abstract final class LocalNotification {
   Future<String?> get token => throw UnimplementedError();
 
   /// call in [App.setup]
-  static Future<void> setup() async {
+  static Future<void> setup({
+    String defaultIcon = '@drawable/ic_launcher',
+  }) async {
     // Initialization setting for android
-    const initializationSettingsAndroid = InitializationSettings(
-        android: AndroidInitializationSettings('@drawable/ic_launcher'));
+    final initializationSettingsAndroid = InitializationSettings(
+        android: AndroidInitializationSettings(defaultIcon));
     _notificationsPlugin.initialize(
       initializationSettingsAndroid,
       // to handle event when we receive notification
