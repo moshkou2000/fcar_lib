@@ -25,6 +25,7 @@ class DioLoggerInterceptor extends Interceptor {
   }
 
   /// onRequest
+  // ignore: unused_element
   void _logRequest(RequestOptions requestOptions) {
     try {
       log(_getRequest(requestOptions), name: 'request');
@@ -34,6 +35,7 @@ class DioLoggerInterceptor extends Interceptor {
   }
 
   /// onResponse
+  // ignore: unused_element
   void _logResponse(Response response) {
     try {
       log(_getResponse(response), name: 'response');

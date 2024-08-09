@@ -25,7 +25,7 @@ class Socketio extends ISocket {
     _singleton ??= Socketio._internal(socketUrl: socketUrl);
     return _singleton!;
   }
-  Socketio._internal({required String socketUrl}) : super(socketUrl: socketUrl);
+  Socketio._internal({required super.socketUrl});
 
   IO.Socket? _socket;
 

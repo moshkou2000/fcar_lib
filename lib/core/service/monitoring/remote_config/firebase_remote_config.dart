@@ -15,6 +15,7 @@ abstract final class FirebaseRemoteConfig {
 
   static String get _lowestVersion =>
       package.FirebaseRemoteConfig.instance.getString(_lVersion);
+  // ignore: unused_element
   static String get _downloadUrl =>
       package.FirebaseRemoteConfig.instance.getString(_dUrl);
 
@@ -90,6 +91,7 @@ abstract final class FirebaseRemoteConfig {
     return false;
   }
 
+  // ignore: unused_element
   static Future<void> _launchUrl(String url) async {
     final uri = Uri.tryParse(Uri.encodeFull(url));
     if (uri != null) {

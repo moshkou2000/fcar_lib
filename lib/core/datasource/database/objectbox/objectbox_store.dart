@@ -16,8 +16,8 @@ class ObjectboxStore extends IDatabase {
     return _singleton!;
   }
   ObjectboxStore._internal({
-    required DatabaseName databaseName,
-  }) : super(databaseType: DatabaseType.objectbox, databaseName: databaseName);
+    required super.databaseName,
+  }) : super(databaseType: DatabaseType.objectbox);
 
   Store? _objectboxStore;
 

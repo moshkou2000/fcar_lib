@@ -7,10 +7,10 @@ import 'package:retry/retry.dart';
 
 import '../../../../config/constant/value.constant.dart';
 import '../../database/database.dart';
+import '../network.dart';
 import '../network.enum.dart';
 import '../network.extension.dart';
 import '../network.model.dart' as model;
-import '../network.dart';
 import '../network_canceltoken.dart';
 import '../network_exception.dart';
 import 'cache/dio_cache.dart.dart';
@@ -27,7 +27,7 @@ class DioNetwork extends INetwork {
     }
     return _singleton!;
   }
-  DioNetwork._internal({required String baseUrl}) : super(baseUrl: baseUrl);
+  DioNetwork._internal({required super.baseUrl});
 
   late _DioNetwork _network;
 
