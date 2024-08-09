@@ -1,8 +1,8 @@
-/// Reference to the given notification dataset
-/// export only one local & remote
-///
-export 'notification_message.model.dart';
+// Reference to the given notification dataset
+// export only one local & remote
+//
 export 'local/flutter_local_notification.dart';
+export 'notification_message.model.dart';
 export 'remote/firebase_messaging.dart';
 
 /// each [*_analytics.dart] must implement the [Analytics]

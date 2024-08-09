@@ -64,15 +64,10 @@ class TagRoute<T> extends MaterialPageRoute<T> {
   final dynamic tag;
 
   TagRoute({
-    required WidgetBuilder builder,
+    required super.builder,
     this.tag,
-    RouteSettings? settings,
-    bool maintainState = true,
-    bool fullscreenDialog = false,
-  }) : super(
-          builder: builder,
-          settings: settings,
-          maintainState: maintainState,
-          fullscreenDialog: fullscreenDialog,
-        );
+    super.settings,
+    super.maintainState,
+    super.fullscreenDialog,
+  });
 }

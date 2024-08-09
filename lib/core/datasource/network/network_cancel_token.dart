@@ -1,5 +1,5 @@
-/// Export from [network.provider.dart]
-///
+// Export from [network.provider.dart]
+//
 import 'package:dio/dio.dart';
 
 class NetworkCancelToken {

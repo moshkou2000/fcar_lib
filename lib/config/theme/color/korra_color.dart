@@ -1,5 +1,5 @@
-/// Reference in color.dart
-///
+// Reference in color.dart
+//
 import 'package:flutter/material.dart';
 
 @immutable

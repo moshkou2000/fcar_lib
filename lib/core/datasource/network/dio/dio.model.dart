@@ -5,18 +5,13 @@ import '../network_canceltoken.dart';
 
 class DioResponse<T> extends dio.Response<T> implements NetworkResponse<T> {
   DioResponse({
-    required DioRequestOptions requestOptions,
-    T? data,
-    int? statusCode,
-    String? statusMessage,
-    Map<String, dynamic>? extra,
+    required DioRequestOptions super.requestOptions,
+    super.data,
+    super.statusCode,
+    super.statusMessage,
+    super.extra,
     Map<String, List<String>>? header,
   }) : super(
-          requestOptions: requestOptions,
-          data: data,
-          statusCode: statusCode,
-          statusMessage: statusMessage,
-          extra: extra,
           headers: header != null ? dio.Headers.fromMap(header) : null,
         );
 
