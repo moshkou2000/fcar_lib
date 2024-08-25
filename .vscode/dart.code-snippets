@@ -103,8 +103,8 @@
     "body": [
       "static ${1:MyClass}? _singleton;",
       "factory ${1:MyClass}({required ${2:DataType} ${3:Argument}}) {",
-      "_singleton ??= ${1:MyClass}._internal(${3:Argument}: ${3:Argument});"
-      "return _singleton!;}"
+      "_singleton ??= ${1:MyClass}._internal(${3:Argument}: ${3:Argument});",
+      "return _singleton!;}",
       "${1:MyClass}._internal({required ${2:DataType} ${3:Argument}});"
     ],
     "description": "Create Singleton with argument"

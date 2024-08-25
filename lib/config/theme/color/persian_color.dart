@@ -23,10 +23,7 @@ abstract final class PersianColor {
   static const onError = Color(0xFFBB2020);
   static const errorContainer = Color(0xFFECF3F9);
 
-  static const background = Color(0xffffffff);
-  static const onBackground = Color(0xffffffff);
-
-  static const surface = Color(0xff141617);
+  static const surface = Color(0xffffffff);
   static const onSurface = Color(0xff141617);
   static const surfaceVariant = Color(0xff181b1e);
   static const onSurfaceVariant = Color(0xff181b1e);

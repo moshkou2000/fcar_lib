@@ -16,7 +16,7 @@ abstract final class FirebaseAnalytics {
 
   Future<void> logEvent<T>({
     required AnalyticsEvent event,
-    Map<String, dynamic>? data,
+    Map<String, Object>? data,
   }) async {
     package.FirebaseAnalytics.instance
         .logEvent(name: event.name, parameters: data);
