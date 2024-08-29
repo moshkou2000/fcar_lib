@@ -32,3 +32,6 @@ build/
 # plugin's library dependencies
 .flutter-plugins
 .flutter-plugins-dependencies
+
+# FVM Version Cache
+.fvm/

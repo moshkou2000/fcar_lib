@@ -17,14 +17,19 @@ For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
+## Flutter & Dart
+
+- Flutter: 3.24.1
+- Dart: 3.5.1
+
 ## Target Platforms
 
 - mobile: Android & iOS
 
 ## Target OS version
 
-- Android: 21 - 30
-- iOS: 12.1
+- Android: 24 - 34
+- iOS: 13
 
 ## Riverpod
 
@@ -89,6 +94,7 @@ If the socket connection is failing, then you might have to add the following pr
 ```
 
 ### Permission
+
 Follow the instructions [Android & iOS integration](https://pub.dev/packages/permission_handler).
 
 For [Android project](https://github.com/Baseflow/flutter-permission-handler/blob/main/permission_handler/example/android/app/src/main/AndroidManifest.xml)

@@ -129,7 +129,7 @@ abstract final class RemoteAuth {
     _guard();
     try {
       final serviceConfiguration =
-          config?.authorizationEndpoint != null && config?.tokenEndpoint != null
+          config!.authorizationEndpoint != null && config!.tokenEndpoint != null
               ? AuthorizationServiceConfiguration(
                   authorizationEndpoint: config!.authorizationEndpoint!,
                   tokenEndpoint: config!.tokenEndpoint!,
@@ -146,7 +146,7 @@ abstract final class RemoteAuth {
           serviceConfiguration: serviceConfiguration,
         ),
       );
-      if (result != null) _processAuthResponse(result);
+      _processAuthResponse(result);
       return result;
     } catch (e, s) {
       logger.error('RemoteAuth.auth', e: e, s: s);
@@ -173,7 +173,7 @@ abstract final class RemoteAuth {
           loginHint: loginHint,
         ),
       );
-      if (result != null) _processAuthWithNoCodeExchangeResponse(result);
+      _processAuthWithNoCodeExchangeResponse(result);
       return result;
     } catch (e, s) {
       logger.error('RemoteAuth.authWithNoCodeExchange', e: e, s: s);
@@ -200,7 +200,7 @@ abstract final class RemoteAuth {
           scopes: config!.scopes,
         ),
       );
-      if (result != null) _processRefreshTokenResponse(result);
+      _processRefreshTokenResponse(result);
       return result;
     } catch (e, s) {
       logger.error('RemoteAuth.refreshToken', e: e, s: s);
@@ -218,7 +218,7 @@ abstract final class RemoteAuth {
     _guard();
     try {
       final serviceConfiguration =
-          config?.authorizationEndpoint != null && config?.tokenEndpoint != null
+          config!.authorizationEndpoint != null && config!.tokenEndpoint != null
               ? AuthorizationServiceConfiguration(
                   authorizationEndpoint: config!.authorizationEndpoint!,
                   tokenEndpoint: config!.tokenEndpoint!,
