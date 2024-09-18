@@ -5,54 +5,38 @@ abstract final class RobotoFont {
   static const fontFamily = 'Roboto';
   static const textStyle = TextStyle(fontFamily: fontFamily);
 
-  static final titleStyle = label500Medium;
-  static final subtitleStyle = paragraph400Small;
-  static final buttonTextStyle = paragraph400Medium;
+  static final titleStyle = titleMedium;
+  static final subtitleStyle = titleSmall;
+  static final buttonTextStyle = labelLarge;
 
   static final displayLarge =
-      textStyle.copyWith(fontSize: 96, fontWeight: FontWeight.w700);
+      textStyle.copyWith(fontSize: 96, fontWeight: FontWeight.w300);
   static final displayMedium =
-      textStyle.copyWith(fontSize: 52, fontWeight: FontWeight.w700);
+      textStyle.copyWith(fontSize: 60, fontWeight: FontWeight.w300);
   static final displaySmall =
-      textStyle.copyWith(fontSize: 44, fontWeight: FontWeight.w700);
-
-  static final headingXXLarge =
-      textStyle.copyWith(fontSize: 40, fontWeight: FontWeight.w700);
-  static final headingXLarge =
-      textStyle.copyWith(fontSize: 36, fontWeight: FontWeight.w700);
-  static final headingLarge =
-      textStyle.copyWith(fontSize: 32, fontWeight: FontWeight.w700);
-  static final headingMedium =
-      textStyle.copyWith(fontSize: 28, fontWeight: FontWeight.w700);
-  static final headingSmall =
-      textStyle.copyWith(fontSize: 24, fontWeight: FontWeight.w700);
-  static final headingXSmall =
-      textStyle.copyWith(fontSize: 20, fontWeight: FontWeight.w700);
-
-  static final label700Large =
-      textStyle.copyWith(fontSize: 18, fontWeight: FontWeight.w700);
-  static final label700Medium =
-      textStyle.copyWith(fontSize: 16, fontWeight: FontWeight.w700);
-  static final label700Small =
-      textStyle.copyWith(fontSize: 14, fontWeight: FontWeight.w700);
-  static final label700XSmall =
-      textStyle.copyWith(fontSize: 12, fontWeight: FontWeight.w700);
-
-  static final label500Large =
-      textStyle.copyWith(fontSize: 18, fontWeight: FontWeight.w500);
-  static final label500Medium =
-      textStyle.copyWith(fontSize: 16, fontWeight: FontWeight.w500);
-  static final label500Small =
-      textStyle.copyWith(fontSize: 14, fontWeight: FontWeight.w500);
-  static final label500XSmall =
-      textStyle.copyWith(fontSize: 12, fontWeight: FontWeight.w500);
-
-  static final paragraph400Large =
+      textStyle.copyWith(fontSize: 48, fontWeight: FontWeight.w400);
+  static final headlineLarge =
+      textStyle.copyWith(fontSize: 34, fontWeight: FontWeight.w400);
+  static final headlineMedium =
+      textStyle.copyWith(fontSize: 34, fontWeight: FontWeight.w400);
+  static final headlineSmall =
+      textStyle.copyWith(fontSize: 24, fontWeight: FontWeight.w400);
+  static final titleLarge =
+      textStyle.copyWith(fontSize: 32, fontWeight: FontWeight.w500);
+  static final titleMedium =
+      textStyle.copyWith(fontSize: 28, fontWeight: FontWeight.w400);
+  static final titleSmall =
+      textStyle.copyWith(fontSize: 24, fontWeight: FontWeight.w500);
+  static final bodyLarge =
+      textStyle.copyWith(fontSize: 20, fontWeight: FontWeight.w400);
+  static final bodyMedium =
       textStyle.copyWith(fontSize: 18, fontWeight: FontWeight.w400);
-  static final paragraph400Medium =
+  static final bodySmall =
       textStyle.copyWith(fontSize: 16, fontWeight: FontWeight.w400);
-  static final paragraph400Small =
+  static final labelLarge =
+      textStyle.copyWith(fontSize: 14, fontWeight: FontWeight.w500);
+  static final labelMedium =
       textStyle.copyWith(fontSize: 14, fontWeight: FontWeight.w400);
-  static final paragraph400XSmall =
+  static final labelSmall =
       textStyle.copyWith(fontSize: 12, fontWeight: FontWeight.w400);
 }
