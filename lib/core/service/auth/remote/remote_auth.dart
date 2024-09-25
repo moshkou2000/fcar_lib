@@ -1,274 +1,244 @@
-// import 'dart:async';
+import 'dart:convert';
 
-// import 'package:flutter/foundation.dart';
-// import 'package:flutter_appauth/flutter_appauth.dart';
+import 'package:flutter/material.dart';
+import 'package:oauth2/oauth2.dart';
 
-// import '../../../utility/logger.dart';
-// import 'remote_auth.model.dart';
-// import 'remote_auth_config.model.dart';
+import '../../../../feature/webview/webview.argument.dart';
+import '../../../../feature/webview/webview.view.dart';
+import '../../../core.module.dart';
 
-// /// namespace: com.company.product
-// /// Example: com.moshkou.fcar
-// ///
-// /// - Android:
-// /// Configure Dependencies and Callback URL
-// /// Update the android/app/build.gradle
-// ///
-// /// It overrides [AndroidManifest.xml] placeholder substitution.
-// /// Suggested to use += to keep the current data in [manifestPlaceholders];
-// ///
-// /// ```
-// ///   defaultConfig {
-// ///     ...
-// ///     manifestPlaceholders += ['appAuthRedirectScheme': 'com.company.product:/oauthredirect']
-// ///   }
-// /// ```
-// ///
-// /// Alternatively, the redirect URI can be directly configured
-// /// by adding an intent-filter for AppAuth's RedirectUriReceiverActivity to your AndroidManifest.xml
-// ///
-// /// ```
-// ///   <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-// ///    xmlns:tools="http://schemas.android.com/tools"
-// ///    package="com.example.my_app">
-// ///     ...<activity
-// ///       android:name="net.openid.appauth.RedirectUriReceiverActivity"
-// ///       android:exported="true"
-// ///       tools:node="replace">
-// ///       <intent-filter>
-// ///         <action android:name="android.intent.action.VIEW"/>
-// ///         <category android:name="android.intent.category.DEFAULT"/>
-// ///         <category android:name="android.intent.category.BROWSABLE"/>
-// ///         <data android:scheme="<your_custom_scheme>" android:host="<your_custom_host>"/>
-// ///       </intent-filter>
-// ///     </activity>...
-// /// ```
-// ///
-// /// - iOS:
-// /// Update the ios/Runner/Info.plist
-// ///
-// /// ```
-// ///     <dict>
-// ///       <key>CFBundleURLTypes</key>
-// ///       <array>
-// ///         <dict>
-// ///           <key>CFBundleTypeRole</key>
-// ///           <string>Editor</string>
-// ///           <key>CFBundleURLSchemes</key>
-// ///           <array>
-// ///             <string>com.company.product:/oauthredirect</string>
-// ///           </array>
-// ///         </dict>
-// ///       </array>
-// ///     </dict>
-// /// ```
-// ///
-// ///
-// /// The example demonstrates how to sign into the demo IdentityServer instance
-// ///   (https://demo.duendesoftware.com).
-// ///
-// @immutable
-// abstract final class RemoteAuth {
-//   static FlutterAppAuth appAuth = const FlutterAppAuth();
+/// namespace: com.company.product
+/// Example: com.moshkou.fcar
+///
+/// - Android:
+/// Configure Dependencies and Callback URL
+/// Update the android/app/build.gradle
+///
+/// It overrides [AndroidManifest.xml] placeholder substitution.
+/// Suggested to use += to keep the current data in [manifestPlaceholders];
+///
+/// ```
+///   defaultConfig {
+///     ...
+///     manifestPlaceholders += ['appAuthRedirectScheme': 'com.company.product:/oauthredirect']
+///   }
+/// ```
+///
+/// Alternatively, the redirect URI can be directly configured
+/// by adding an intent-filter for AppAuth's RedirectUriReceiverActivity to your AndroidManifest.xml
+///
+/// ```
+///   <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+///    xmlns:tools="http://schemas.android.com/tools"
+///    package="com.example.my_app">
+///     ...<activity
+///       android:name="net.openid.appauth.RedirectUriReceiverActivity"
+///       android:exported="true"
+///       tools:node="replace">
+///       <intent-filter>
+///         <action android:name="android.intent.action.VIEW"/>
+///         <category android:name="android.intent.category.DEFAULT"/>
+///         <category android:name="android.intent.category.BROWSABLE"/>
+///         <data android:scheme="<your_custom_scheme>" android:host="<your_custom_host>"/>
+///       </intent-filter>
+///     </activity>...
+/// ```
+///
+/// Make sure to add the following queries in the AndroidManifest.xml
+/// ```
+///   <queries>
+///        ...
+///        <intent>
+///            <action android:name="android.intent.action.VIEW" />
+///            <category android:name="android.intent.category.BROWSABLE" />
+///            <data android:scheme="https" />
+///        </intent>
+///        <intent>
+///            <action android:name="android.intent.action.VIEW" />
+///            <category android:name="android.intent.category.APP_BROWSER" />
+///            <data android:scheme="https" />
+///        </intent>
+///   </queries>
+/// ```
+///
+/// - iOS:
+/// Update the ios/Runner/Info.plist
+///
+/// ```
+///     <dict>
+///       <key>CFBundleURLTypes</key>
+///       <array>
+///         <dict>
+///           <key>CFBundleTypeRole</key>
+///           <string>Editor</string>
+///           <key>CFBundleURLSchemes</key>
+///           <array>
+///             <string>com.company.product:/oauthredirect</string>
+///           </array>
+///         </dict>
+///       </array>
+///     </dict>
+/// ```
+///
+///
+/// The example demonstrates how to sign into the demo IdentityServer instance (https://demo.duendesoftware.com).
+///
+@immutable
+abstract final class RemoteAuth {
+  /// authorizationEndpoint & tokenEndpoint must have correct value
+  ///   based on the autherization server.
+  ///
+  /// it's better to use [Localization.authentication] for [title]
+  ///
+  /// It returns [RemoteAuthModel?]
+  ///
+  static Future<RemoteAuthModel?> authentication(
+    RemoteAuthConfigModel remoteAuthConfig,
+    BuildContext context,
+    String title,
+  ) {
+    assert(remoteAuthConfig.authorizationEndpoint != null &&
+        remoteAuthConfig.tokenEndpoint != null);
 
-//   /// It will be set after [auth] | [authWithNoCodeExchange] | [refreshToken]
-//   static final RemoteAuthModel data = RemoteAuthModel();
+    // Create an authorization grant
+    var grant = AuthorizationCodeGrant(
+      remoteAuthConfig.clientId,
+      remoteAuthConfig.authorizationEndpoint!,
+      remoteAuthConfig.tokenEndpoint!,
+    );
 
-//   /// It will be populated after [setup]
-//   static RemoteAuthConfigModel? config;
+    // Build the authorization URL
+    var authorizationUrl = grant.getAuthorizationUrl(
+      remoteAuthConfig.redirectUrl,
+      scopes: remoteAuthConfig.scopes,
+    );
 
-//   /// call in [App.setup]
-//   ///
-//   /// - [clientId] is known as application ID as well.
-//   ///
-//   /// Have to provide one of the following
-//   ///   - [issuer]
-//   ///   - [discoveryUrl]
-//   ///   - [authorizationEndpoint] & [tokenEndpoint]
-//   ///
-//   /// The authorization server will redirect the resource owner to [redirectUrl] once they've authorized the client.
-//   /// The redirection will include the authorization code in the query parameters.
-//   ///
-//   /// [discoveryUrl], [authorizationEndpoint] and [tokenEndpoint] URLs are endpoints that are provided by the authorization server.
-//   ///
-//   /// Examples available in [RemoteAuthConfigModel]
-//   ///
-//   static Future<void> setup({
-//     required String clientId,
-//     required String redirectUrl,
-//     String? issuer,
-//     String? discoveryUrl,
-//     List<String>? scopes,
-//     String? postLogoutRedirectUrl,
-//     String? authorizationEndpoint,
-//     String? tokenEndpoint,
-//     String? endSessionEndpoint,
-//   }) async {
-//     assert(issuer?.trim().isNotEmpty == true ||
-//         discoveryUrl?.trim().isNotEmpty == true ||
-//         (authorizationEndpoint?.trim().isNotEmpty == true &&
-//             tokenEndpoint?.trim().isNotEmpty == true));
+    return _navigateToAuth(
+      remoteAuthConfig,
+      context,
+      title,
+      authorizationUrl,
+      grant,
+    );
+  }
 
-//     config = RemoteAuthConfigModel(
-//       clientId: clientId,
-//       redirectUrl: redirectUrl,
-//       issuer: issuer,
-//       discoveryUrl: discoveryUrl,
-//       scopes: scopes,
-//       postLogoutRedirectUrl: postLogoutRedirectUrl,
-//       authorizationEndpoint: authorizationEndpoint,
-//       tokenEndpoint: tokenEndpoint,
-//       endSessionEndpoint: endSessionEndpoint,
-//     );
-//   }
+  static Future<RemoteAuthModel?> _navigateToAuth(
+    RemoteAuthConfigModel remoteAuthConfig,
+    BuildContext context,
+    String title,
+    Uri authorizationUrl,
+    AuthorizationCodeGrant grant,
+  ) async {
+    return await Navigator.push<RemoteAuthModel?>(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Webview(
+          arguments: WebviewArgument(
+            title: title,
+            url: authorizationUrl,
+            onUrlChange: (url) async {
+              if (url != null) {
+                await _handleAuth(remoteAuthConfig, url, grant);
+              }
+            },
+            onError: () {},
+            hasCloseButton: false,
+          ),
+        ),
+      ),
+    );
+  }
 
-//   /// For the future ref, the successfull response is available in [RemoteAuth.data]
-//   ///
-//   /// Required [setup]
-//   static Future<AuthorizationTokenResponse?> auth() async {
-//     _guard();
-//     try {
-//       final serviceConfiguration =
-//           config!.authorizationEndpoint != null && config!.tokenEndpoint != null
-//               ? AuthorizationServiceConfiguration(
-//                   authorizationEndpoint: config!.authorizationEndpoint!,
-//                   tokenEndpoint: config!.tokenEndpoint!,
-//                   endSessionEndpoint: config!.endSessionEndpoint,
-//                 )
-//               : null;
-//       final result = await appAuth.authorizeAndExchangeCode(
-//         AuthorizationTokenRequest(
-//           config!.clientId,
-//           config!.redirectUrl,
-//           scopes: config!.scopes,
-//           discoveryUrl: config!.discoveryUrl,
-//           issuer: config!.issuer,
-//           serviceConfiguration: serviceConfiguration,
-//         ),
-//       );
-//       _processAuthResponse(result);
-//       return result;
-//     } catch (e, s) {
-//       logger.error('RemoteAuth.auth', e: e, s: s);
-//     }
-//     return null;
-//   }
+  static Future<void> _handleAuth(
+    RemoteAuthConfigModel remoteAuthConfig,
+    String url,
+    AuthorizationCodeGrant grant,
+  ) async {
+    if (url.contains(remoteAuthConfig.redirectUrl.toString()) == true) {
+      // Extract the authorization code from the URL
+      final uri = Uri.parse(url);
+      final code = uri.queryParameters['code'];
 
-//   /// [loginHint] can be user name/username/...
-//   ///
-//   /// For the future ref, the successfull response is available in [RemoteAuth.data]
-//   ///
-//   /// Required [setup]
-//   static Future<AuthorizationResponse?> authWithNoCodeExchange({
-//     String? loginHint,
-//   }) async {
-//     _guard();
-//     try {
-//       final result = await appAuth.authorize(
-//         AuthorizationRequest(
-//           config!.clientId,
-//           config!.redirectUrl,
-//           discoveryUrl: config!.discoveryUrl,
-//           scopes: config!.scopes,
-//           loginHint: loginHint,
-//         ),
-//       );
-//       _processAuthWithNoCodeExchangeResponse(result);
-//       return result;
-//     } catch (e, s) {
-//       logger.error('RemoteAuth.authWithNoCodeExchange', e: e, s: s);
-//     }
-//     return null;
-//   }
+      if (code != null) {
+        try {
+          // Exchange the authorization code for tokens
+          final client =
+              await grant.handleAuthorizationResponse({'code': code});
 
-//   /// Some providers may return a refresh token that could be used to refresh short-lived access tokens.
-//   ///
-//   /// For the future ref, the successfull response is available in [RemoteAuth.data]
-//   ///
-//   /// Required [setup]
-//   static Future<TokenResponse?> refreshToken({
-//     required String refreshToken,
-//   }) async {
-//     _guard();
-//     try {
-//       final result = await appAuth.token(
-//         TokenRequest(
-//           config!.clientId,
-//           config!.redirectUrl,
-//           discoveryUrl: config!.discoveryUrl,
-//           refreshToken: refreshToken,
-//           scopes: config!.scopes,
-//         ),
-//       );
-//       _processRefreshTokenResponse(result);
-//       return result;
-//     } catch (e, s) {
-//       logger.error('RemoteAuth.refreshToken', e: e, s: s);
-//     }
-//     return null;
-//   }
+          if (remoteAuthConfig.profileEndpoint != null) {
+            var response = await client.get(remoteAuthConfig.profileEndpoint!);
 
-//   /// If the provider has an end session endpoint, you can trigger it.
-//   /// It is typically used for logging out of the built-in browser.
-//   ///
-//   /// Required [setup]
-//   static Future<EndSessionResponse?> logout({
-//     String? idTokenHint,
-//   }) async {
-//     _guard();
-//     try {
-//       final serviceConfiguration =
-//           config!.authorizationEndpoint != null && config!.tokenEndpoint != null
-//               ? AuthorizationServiceConfiguration(
-//                   authorizationEndpoint: config!.authorizationEndpoint!,
-//                   tokenEndpoint: config!.tokenEndpoint!,
-//                   endSessionEndpoint: config!.endSessionEndpoint,
-//                 )
-//               : null;
-//       return await appAuth.endSession(
-//         EndSessionRequest(
-//           idTokenHint: idTokenHint,
-//           postLogoutRedirectUrl: config!.postLogoutRedirectUrl,
-//           serviceConfiguration: serviceConfiguration,
-//         ),
-//       );
-//     } catch (e, s) {
-//       logger.error('RemoteAuth.logout', e: e, s: s);
-//     }
-//     return null;
-//   }
+            if (response.statusCode == 200) {
+              final Map<String, dynamic> parameters = jsonDecode(response.body);
 
-//   static void _guard() {
-//     if (config == null) {
-//       throw '[config] must not be null. Make sure to call [setup].';
-//     }
-//   }
+              late final RemoteAuthModel data;
+              switch (remoteAuthConfig.authorizationType) {
+                case AuthorizationType.azure:
+                  data = RemoteAuthModel(
+                    id: parameters['id'],
+                    displayname: parameters['displayName'],
+                    username: parameters['mail'],
+                    accessToken: client.credentials.accessToken,
+                    refreshToken: client.credentials.refreshToken,
+                    expiration: client.credentials.expiration,
+                    additionalParameters: parameters,
+                  );
+                  break;
+                default:
+                  data = RemoteAuthModel.credentials(
+                    accessToken: client.credentials.accessToken,
+                    refreshToken: client.credentials.refreshToken,
+                    expiration: client.credentials.expiration,
+                    additionalParameters: parameters,
+                  );
+              }
 
-//   /// Save the code verifier and nonce as it must be used when exchanging the token.
-//   static void _processAuthWithNoCodeExchangeResponse(
-//       AuthorizationResponse response) {
-//     data.codeVerifier = response.codeVerifier;
-//     data.nonce = response.nonce;
-//     data.authorizationCode = response.authorizationCode;
-//     data.authorizationAdditionalParameters =
-//         response.authorizationAdditionalParameters;
-//   }
+              // Return syccess
+              Navigation.pop(result: data);
+              return;
+            } else {
+              // log the error in crashlytics
+              // DataDogErrorTracking.recordError(
+              //   response.body,
+              //   null,
+              //   reason: 'Could not get user data.',
+              // );
 
-//   static void _processAuthResponse(AuthorizationTokenResponse response) {
-//     data.accessToken = response.accessToken;
-//     data.idToken = response.idToken;
-//     data.refreshToken = response.refreshToken;
-//     data.accessTokenExpirationDateTime = response.accessTokenExpirationDateTime;
-//     data.tokenAdditionalParameters = response.tokenAdditionalParameters;
-//     data.authorizationAdditionalParameters =
-//         response.authorizationAdditionalParameters;
-//   }
+              // Return failure
+              Navigation.pop(result: null);
+              return;
+            }
+          }
 
-//   static void _processRefreshTokenResponse(TokenResponse response) {
-//     data.accessToken = response.accessToken;
-//     data.idToken = response.idToken;
-//     data.refreshToken = response.refreshToken;
-//     data.accessTokenExpirationDateTime = response.accessTokenExpirationDateTime;
-//     data.tokenAdditionalParameters = response.tokenAdditionalParameters;
-//   }
-// }
+          var data = RemoteAuthModel.credentials(
+            accessToken: client.credentials.accessToken,
+            refreshToken: client.credentials.refreshToken,
+            expiration: client.credentials.expiration,
+          );
+
+          // Return syccess
+          Navigation.pop(result: data);
+          return;
+        } catch (e, s) {
+          // log the error in crashlytics
+          // DataDogErrorTracking.recordError(e, s);
+
+          // Return failure
+          Navigation.pop(result: null);
+          return;
+        }
+      }
+
+      // log the error in crashlytics
+      // DataDogErrorTracking.recordError(
+      //   'Authorization code is null',
+      //   null,
+      //   reason:
+      //       'Could not proceed your request. Please contact customer service.',
+      // );
+
+      // Return failure
+      Navigation.pop(result: null);
+    }
+  }
+}

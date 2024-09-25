@@ -32,10 +32,6 @@ class DioNetwork extends INetwork {
   late _DioNetwork _network;
 
   @override
-  Map<String, dynamic> get headers =>
-      {HttpHeaders.contentTypeHeader: NetworkContentType.applicationJson.name};
-
-  @override
   NetworkCancelToken get newCancelToken => DioCancelToken();
 
   @override

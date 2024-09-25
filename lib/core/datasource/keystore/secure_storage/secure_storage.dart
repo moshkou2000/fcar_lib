@@ -1,7 +1,6 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../keystore.dart';
-import '../keystore.enum.dart';
 
 /// The base methods
 /// to _read & write bool, int, double & string
@@ -10,7 +9,14 @@ import '../keystore.enum.dart';
 class SecureStorage implements IKeystore {
   SecureStorage({required this.keystoreName});
 
-  static const FlutterSecureStorage _storage = FlutterSecureStorage();
+  static const FlutterSecureStorage _storage = FlutterSecureStorage(
+    aOptions: AndroidOptions(
+      encryptedSharedPreferences: true,
+    ),
+    iOptions: IOSOptions(
+      accessibility: KeychainAccessibility.first_unlock,
+    ),
+  );
 
   @override
   String keystoreName;
@@ -19,27 +25,26 @@ class SecureStorage implements IKeystore {
   Future<void> clear() async => await _deleteAll();
 
   @override
-  Future<dynamic> read<T>({required KeystoreKey key}) async {
+  Future<dynamic> read<T>({required String key}) async {
     if (T is bool) {
-      return await _readBool(key.name);
+      return await _readBool(key);
     } else if (T is String) {
-      return await _readString(key.name);
+      return await _readString(key);
     } else if (T is int) {
-      return await _readInt(key.name);
+      return await _readInt(key);
     } else if (T is double) {
-      return await _readDouble(key.name);
+      return await _readDouble(key);
     }
 
-    return await _readString(key.name);
+    return await _readString(key);
   }
 
   @override
-  Future<void> remove({required KeystoreKey key}) async =>
-      await _delete(key.name);
+  Future<void> remove({required String key}) async => await _delete(key);
 
   @override
-  Future<void> save({required KeystoreKey key, required String value}) async =>
-      await _write(key.name, value);
+  Future<void> save({required String key, required String value}) async =>
+      await _write(key, value);
 
   Future<bool?> _readBool(String key, {bool useOriginalKey = false}) async {
     final value = await _storage.read(key: _fixKey(key, useOriginalKey));

@@ -1,11 +1,15 @@
 import 'dart:async';
+import 'dart:io';
 
+import 'network.enum.dart';
 import 'network.model.dart';
 import 'network_canceltoken.dart';
 
 abstract class INetwork {
   final String baseUrl;
-  final Map<String, dynamic> headers = {};
+  final Map<String, dynamic> headers = {
+    HttpHeaders.contentTypeHeader: NetworkContentType.applicationJson.name
+  };
 
   /// ex: baseUrl = FlavorService.baseUrl
   INetwork({required this.baseUrl});
